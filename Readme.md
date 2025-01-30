@@ -1,93 +1,23 @@
-# Role Controller Test Cases
+# Role-Permission Package
 
-## Setup
+[![npm version](https://img.shields.io/npm/v/role-permission.svg)](https://www.npmjs.com/package/role-permission)
+[![License](https://img.shields.io/github/license/yourusername/role-permission.svg)](LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/role-permission/tests.yml)](https://github.com/yourusername/role-permission/actions)
 
-1. Install dependencies:
-   ```sh
-   npm install chai chai-http mocha
-   ```
-2. Ensure your test database is running.
-3. Run the tests:
-   ```sh
-   npm test
-   ```
+A **role-based access control (RBAC)** system for Node.js applications using **MongoDB**. This package helps manage users, roles, and permissions efficiently.
 
-## Test Cases
+---
 
-### 1. Create a New Role
-**Endpoint:** `POST /roles`
-- **Request Body:**
-  ```json
-  {
-    "name": "Admin",
-    "permissions": []
-  }
-  ```
-- **Expected Response:**
-  ```json
-  {
-    "_id": "roleId",
-    "name": "Admin",
-    "permissions": []
-  }
-  ```
-- **Status Code:** `201 Created`
+## 🚀 Features
+- 🔒 Assign roles and permissions to users.
+- ✅ Middleware for role-based authorization.
+- 📌 Flexible and easy-to-use API.
+- 🔗 MongoDB integration.
 
-### 2. Retrieve All Roles
-**Endpoint:** `GET /roles`
-- **Expected Response:** Array of roles
-- **Status Code:** `200 OK`
+---
 
-### 3. Retrieve a Single Role
-**Endpoint:** `GET /roles/:id`
-- **Expected Response:**
-  ```json
-  {
-    "_id": "roleId",
-    "name": "Admin",
-    "permissions": []
-  }
-  ```
-- **Status Code:** `200 OK`
+## 📦 Installation
 
-### 4. Update a Role
-**Endpoint:** `PUT /roles/:id`
-- **Request Body:**
-  ```json
-  {
-    "name": "Super Admin"
-  }
-  ```
-- **Expected Response:**
-  ```json
-  {
-    "_id": "roleId",
-    "name": "Super Admin",
-    "permissions": []
-  }
-  ```
-- **Status Code:** `200 OK`
-
-### 5. Assign Permission to Role
-**Endpoint:** `POST /roles/:id/assign-permission`
-- **Request Body:**
-  ```json
-  {
-    "permissionId": "permId"
-  }
-  ```
-- **Status Code:** `200 OK`
-
-### 6. Revoke Permission from Role
-**Endpoint:** `POST /roles/:id/revoke-permission`
-- **Request Body:**
-  ```json
-  {
-    "permissionId": "permId"
-  }
-  ```
-- **Status Code:** `200 OK`
-
-### 7. Delete a Role
-**Endpoint:** `DELETE /roles/:id`
-- **Status Code:** `200 OK`
+### **Using npm**
+```bash
+npm install role-permission
