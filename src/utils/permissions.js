@@ -1,4 +1,5 @@
 const Permissions = require("../models/permissions");
+const Role = require("../models/roles");
 /**
  * Creates a new permission.
  * @param {string} name - The name of the permission.

@@ -72,10 +72,31 @@ const getOneUser = async (id) => {
   }
 };
 
+/**
+ * Retrieves a single user by ID.
+ * @param {string} id - The ID of the user.
+ * @param {string} permission - The name of the permission.
+ */
+const can = async (id, permission) => {
+  try {
+    const user = await User.findById(id).populate({
+      path: "role",
+      populate: {
+        path: "permissions",
+        select: "name",
+      },
+    });
+    return user.role.permissions.some((data) => data.name === permission);
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   createUser,
   deleteUser,
   updateUser,
   getAllUser,
   getOneUser,
+  can,
 };

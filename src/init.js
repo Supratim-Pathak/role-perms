@@ -1,7 +1,14 @@
 const mongoose = require("mongoose");
 
-const init = () => {
-  mongoose.connect("mongodb://127.0.0.1:27017/myapp");
+const init = async (MONGO_URI) => {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log("DATABASE CONNECTED.");
+    return true;
+  } catch (error) {
+    console.log("ERROR IN DATABASE CONNECTION :", error.message);
+    return false;
+  }
 };
 
 module.exports = {

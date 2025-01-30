@@ -13,8 +13,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   password: { type: String, trim: true },
-  role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: null },
-});
+  role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: null }
+},{timestamps:true});
 
 userSchema.pre("save", async function (next) {
   if (this.first_name) this.first_name = this.first_name.trim();
