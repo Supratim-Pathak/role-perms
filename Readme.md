@@ -6,6 +6,8 @@
 
 A **role-based access control (RBAC)** system for Node.js applications using **MongoDB**. This package helps manage users, roles, and permissions efficiently.
 
+The role-permission package is a Role-Based Access Control (RBAC) system for Node.js applications using MongoDB. It allows developers to manage users, roles, and permissions efficiently. With this package, you can define permissions, assign them to roles, and associate roles with users. It includes a built-in authorization middleware to protect API routes based on assigned permissions. The package is lightweight, flexible, and easy to integrate into any Express.js or Node.js project. It supports multi-role users and dynamic permission checks for fine-grained access control. Using Mongoose, it ensures data is stored efficiently in MongoDB. The API is simple yet powerful, making it easy to implement secure role-based authentication. Ideal for SaaS applications, admin dashboards, and enterprise software. 
+
 ---
 
 ## 🚀 Features
@@ -21,3 +23,4 @@ A **role-based access control (RBAC)** system for Node.js applications using **M
 ### **Using npm**
 ```bash
 npm install role-permission
+
