@@ -22,5 +22,5 @@ The role-permission package is a Role-Based Access Control (RBAC) system for Nod
 
 ### **Using npm**
 ```bash
-npm install role-permission
+npm install max-rcba
 
