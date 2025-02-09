@@ -1,8 +1,8 @@
 # Role-Permission Package
 
-[![npm version](https://img.shields.io/npm/v/role-permission.svg)](https://www.npmjs.com/package/max-rbac)
-[![License](https://img.shields.io/github/license/Supratim-Pathak/role-perms.svg)](LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Supratim-Pathak/role-perms/tests.yml)](https://github.com/Supratim-Pathak/role-perms/actions)
+[![npm version](https://img.shields.io/npm/v/role-permission.svg)](https://www.npmjs.com/package/role-permission)
+[![License](https://img.shields.io/github/license/yourusername/role-permission.svg)](LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/role-permission/tests.yml)](https://github.com/yourusername/role-permission/actions)
 
 A **role-based access control (RBAC)** system for Node.js applications using **MongoDB**. This package helps manage users, roles, and permissions efficiently.
 
@@ -73,18 +73,43 @@ This package uses a Mongoose model to manage users.
 
 ```javascript
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 const mongoosePaginate = require("mongoose-paginate-v2");
 
 const userSchema = new mongoose.Schema(
   {
-    first_name: { type: String, required: true, trim: true },
-    last_name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true },
-    role: { type: mongoose.Schema.Types.ObjectId, ref: "Role" },
+    first_name: { type: String, trim: true },
+    last_name: { type: String, trim: true },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      required: true,
+    },
+    password: { type: String, trim: true },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: null },
   },
   { timestamps: true }
 );
+
+// Middleware to handle password hashing before saving
+userSchema.pre("save", async function (next) {
+  if (this.first_name) this.first_name = this.first_name.trim();
+  if (this.last_name) this.last_name = this.last_name.trim();
+  if (this.email) this.email = this.email.trim().toLowerCase();
+  
+  if (this.isModified("password")) {
+    try {
+      const salt = await bcrypt.genSalt(saltRounds);
+      this.password = await bcrypt.hash(this.password.trim(), salt);
+    } catch (err) {
+      return next(err);
+    }
+  }
+  next();
+});
 
 userSchema.plugin(mongoosePaginate);
 
@@ -92,6 +117,15 @@ const User = mongoose.model("User", userSchema);
 
 module.exports = User;
 ```
+### Create user
+```
+const userInfo = await User.createUser("first_name", "last_name", "supratimpathak@gmail.com", "password123")
+```
+### Features
+- **Password Hashing:** Uses **bcrypt** to securely hash passwords before saving to the database.
+- **Role Association:** Associates each user with a role using a reference to the Role model.
+- **Pagination Support:** Integrates mongoose-paginate-v2 for easy pagination of user data.
+- **Automatic Trimming:** Ensures that names and email addresses are properly formatted.
 
 ### Description
 - **first_name** (*String*): The first name of the user.
@@ -431,3 +465,7 @@ console.log(searchResults);
 ## License
 
 MIT License
+
+
+
+
