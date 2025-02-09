@@ -1,10 +1,11 @@
 {
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "mongoose-paginate-v2": "^1.9.0"
   },
-  "name": "role-permission",
-  "version": "1.0.0",
+  "name": "max-rbac",
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

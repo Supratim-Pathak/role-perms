@@ -51,10 +51,18 @@ const updateUser = async (id, first_name, last_name, email, password) => {
 
 /**
  * Retrieves all users.
+ * @param {string} page - Current page number for pagination.
+ * @param {string} limit - Limit for number of records.
  */
-const getAllUser = async () => {
+const getAllUser = async (page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    populate: "permissions",
+    sort: { name: 1 },
+  };
   try {
-    return await User.find();
+    return await User.paginate({}, options);
   } catch (error) {
     return error.message;
   }
@@ -92,6 +100,26 @@ const can = async (id, permission) => {
   }
 };
 
+/**
+ * search User.
+ * @param {string} query - query string for lookup.
+ */
+const searchUser = async (q, page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    sort: { createdAt: -1 },
+  };
+
+  const query = { name: { $regex: q, $options: "i" } };
+
+  try {
+    return await await User.paginate(query, options);
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   createUser,
   deleteUser,
@@ -99,4 +127,5 @@ module.exports = {
   getAllUser,
   getOneUser,
   can,
+  searchUser,
 };

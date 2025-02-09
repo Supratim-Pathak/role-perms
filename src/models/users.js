@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
-const userSchema = new mongoose.Schema({
-  first_name: { type: String, trim: true },
-  last_name: { type: String, trim: true },
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    required: true,
+const mongoosePaginate = require("mongoose-paginate-v2");
+const userSchema = new mongoose.Schema(
+  {
+    first_name: { type: String, trim: true },
+    last_name: { type: String, trim: true },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      required: true,
+    },
+    password: { type: String, trim: true },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: null },
   },
-  password: { type: String, trim: true },
-  role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: null }
-},{timestamps:true});
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
   if (this.first_name) this.first_name = this.first_name.trim();
@@ -30,6 +33,8 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+
+userSchema.plugin(mongoosePaginate);
 
 const User = mongoose.model("User", userSchema);
 

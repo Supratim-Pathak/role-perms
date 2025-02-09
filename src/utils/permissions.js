@@ -3,10 +3,11 @@ const Role = require("../models/roles");
 /**
  * Creates a new permission.
  * @param {string} name - The name of the permission.
+ * @param {string} module - The module the permission belongs to.
  */
-const createPermission = async (name) => {
+const createPermission = async (name, module) => {
   try {
-    const permData = new Permissions({ name });
+    const permData = new Permissions({ name, module });
     return await permData.save();
   } catch (error) {
     return error.message;
@@ -40,10 +41,37 @@ const updatePermission = async (id, name) => {
 
 /**
  * Retrieves all permissions.
+ * @param {string} page - Current page number for pagination.
+ * @param {string} limit - Limit for number of records.
  */
-const getAllPermission = async () => {
+const getAllPermission = async (page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    sort: { createdAt: -1 },
+  };
   try {
-    return await Permissions.find();
+    return await Permissions.paginate({}, options);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+/**
+ * search permissions.
+ * @param {string} q - query string for lookup.
+ */
+const searchPermission = async (q, page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    sort: { createdAt: -1 },
+  };
+
+  const query = { name: { $regex: q, $options: "i" } };
+
+  try {
+    return await await Permissions.paginate(query, options);
   } catch (error) {
     return error.message;
   }
@@ -99,4 +127,5 @@ module.exports = {
   getOnePermission,
   assignPermission,
   revokePermission,
+  searchPermission,
 };

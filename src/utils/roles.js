@@ -47,10 +47,18 @@ const updateRole = async (id, rolename, permissions) => {
 
 /**
  * Retrieves all roles.
+ * @param {string} page - Current page number for pagination.
+ * @param {string} limit - Limit for number of records.
  */
-const getAllRole = async () => {
+const getAllRole = async (page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    populate: "permissions",
+    sort: { name: 1 },
+  };
   try {
-    return await Role.find().populate("permissions");
+    return await Role.paginate({}, options);
   } catch (error) {
     return error.message;
   }
@@ -114,6 +122,28 @@ const revokeRole = async (userId) => {
   }
 };
 
+/**
+ * search Role.
+ * @param {string} q - query string for lookup.
+ * @param {string} page - Current page number for pagination.
+ * @param {string} limit - Limit for number of records.
+ */
+const searchRole = async (q, page = 1, limit = 5) => {
+  const options = {
+    page,
+    limit,
+    sort: { createdAt: -1 },
+  };
+
+  const query = { name: { $regex: q, $options: "i" } };
+
+  try {
+    return await await Role.paginate(query, options);
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   createRole,
   deleteRole,
@@ -123,4 +153,5 @@ module.exports = {
   assignRole,
   revokeRole,
   rolesPermission,
+  searchRole,
 };
