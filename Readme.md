@@ -1,6 +1,6 @@
 # Role-Permission Package
 
-[![npm version](https://img.shields.io/npm/v/role-permission.svg)](https://www.npmjs.com/package/role-permission)
+[![npm version](https://img.shields.io/npm/v/role-permission.svg)](https://www.npmjs.com/package/max-rbac)
 [![License](https://img.shields.io/github/license/yourusername/role-permission.svg)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/role-permission/tests.yml)](https://github.com/yourusername/role-permission/actions)
 
